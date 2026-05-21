@@ -74,6 +74,10 @@ else:
             'PASSWORD': os.getenv('DB_PASSWORD', 'webserver_password'),
             'HOST': os.getenv('DB_HOST', 'db'),
             'PORT': os.getenv('DB_PORT', '3306'),
+            'OPTIONS': {
+                'charset': os.getenv('DB_CHARSET', 'utf8mb4'),
+                'init_command': os.getenv('DB_INIT_COMMAND', "SET sql_mode='STRICT_TRANS_TABLES'"),
+            },
         }
     }
 
