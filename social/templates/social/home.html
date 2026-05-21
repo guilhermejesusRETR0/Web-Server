@@ -7,7 +7,23 @@
 </head>
 <body>
   <h1>Mini Rede Social</h1>
-  <p><a href="/feed/">Ir para o feed</a></p>
-  <p><a href="/utilizador/guilherme/">Ver perfil de exemplo</a></p>
+  <p>Perfis registados: {{ total_profiles }}</p>
+  <p>Publicações totais: {{ total_posts }}</p>
+
+  <h2>Publicações recentes</h2>
+  {% if recent_posts %}
+    <ul>
+      {% for post in recent_posts %}
+        <li>
+          <strong>{{ post.author.username }}</strong>: {{ post.content }}
+          ({{ post.likes }} likes)
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Ainda não existem publicações.</p>
+  {% endif %}
+
+  <p><a href="/feed/">Ir para o feed completo</a></p>
 </body>
 </html>

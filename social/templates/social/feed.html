@@ -7,7 +7,18 @@
 </head>
 <body>
   <h1>Feed de Publicações</h1>
-  <p>Esta página vai listar todas as publicações.</p>
+  {% if posts %}
+    {% for post in posts %}
+      <article>
+        <h3>{{ post.author.full_name }} (@{{ post.author.username }})</h3>
+        <p>{{ post.content }}</p>
+        <p>{{ post.likes }} likes | {{ post.comments.count }} comentários</p>
+      </article>
+      <hr>
+    {% endfor %}
+  {% else %}
+    <p>Sem publicações no momento.</p>
+  {% endif %}
   <p><a href="/">Voltar ao início</a></p>
 </body>
 </html>
