@@ -7,7 +7,7 @@ Desenvolver uma aplicação Django com separação entre ambiente de desenvolvim
 
 ## Configuração de base de dados MySQL
 1. Copiar `.env.example` para `.env`.
-2. Descomentar as variáveis MySQL e ajustar os valores.
+2. Ajustar os valores das variáveis.
 3. Executar migrações com `python manage.py migrate`.
 
 Variáveis MySQL usadas pela aplicação:
@@ -19,3 +19,13 @@ Variáveis MySQL usadas pela aplicação:
 - `DB_PORT`
 - `DB_CHARSET` (default `utf8mb4`)
 - `DB_INIT_COMMAND` (default `SET sql_mode='STRICT_TRANS_TABLES'`)
+
+## Docker Compose
+1. Copiar `.env.example` para `.env` e atualizar passwords.
+2. Construir e iniciar serviços:
+   `docker compose up --build`
+3. A aplicação fica em `http://localhost:8000`.
+
+Serviços incluídos:
+- `web`: aplicação Django
+- `db`: MySQL 8.4 com volume persistente
