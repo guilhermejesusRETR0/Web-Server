@@ -1,29 +1,27 @@
-﻿<!doctype html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mini Rede Social</title>
-</head>
-<body>
-  <h1>Mini Rede Social</h1>
-  <p>Perfis registados: {{ total_profiles }}</p>
-  <p>Publicações totais: {{ total_posts }}</p>
+﻿{% extends "social/base.html" %}
+{% block title %}Kira Network | Inicio{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>Bem-vindo ao mundo de Yoshikage Kira</h1>
+    <p class="meta">Uma rede social estilizada para seguidores de JoJo Part 4.</p>
+    <div class="stats">
+      <div class="stat"><strong>{{ total_profiles }}</strong> perfis</div>
+      <div class="stat"><strong>{{ total_posts }}</strong> publicacoes</div>
+    </div>
+  </section>
 
-  <h2>Publicações recentes</h2>
-  {% if recent_posts %}
-    <ul>
+  <section class="card">
+    <h2>Publicacoes recentes</h2>
+    {% if recent_posts %}
       {% for post in recent_posts %}
-        <li>
-          <strong>{{ post.author.username }}</strong>: {{ post.content }}
-          ({{ post.likes }} likes)
-        </li>
+        <article>
+          <h3>@{{ post.author.username }}</h3>
+          <p>{{ post.content }}</p>
+          <p class="meta">{{ post.likes }} likes</p>
+        </article>
       {% endfor %}
-    </ul>
-  {% else %}
-    <p>Ainda não existem publicações.</p>
-  {% endif %}
-
-  <p><a href="/feed/">Ir para o feed completo</a></p>
-</body>
-</html>
+    {% else %}
+      <p class="empty">Ainda nao existem publicacoes.</p>
+    {% endif %}
+  </section>
+{% endblock %}

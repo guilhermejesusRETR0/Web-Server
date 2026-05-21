@@ -1,24 +1,43 @@
-﻿<!doctype html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Feed</title>
-</head>
-<body>
-  <h1>Feed de Publicações</h1>
+﻿{% extends "social/base.html" %}
+{% block title %}Kira Network | Feed{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>Feed de Morioh</h1>
+    <p class="meta">Todas as publicacoes da comunidade Kira Network.</p>
+  </section>
+
   {% if posts %}
     {% for post in posts %}
-      <article>
+      <article class="card">
         <h3>{{ post.author.full_name }} (@{{ post.author.username }})</h3>
         <p>{{ post.content }}</p>
-        <p>{{ post.likes }} likes | {{ post.comments.count }} comentários</p>
+        <p class="meta">{{ post.likes }} likes | {{ post.comments.count }} comentarios</p>
+
+        <form method="post" action="{% url 'social:like_post' post.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{% url 'social:feed' %}">
+          <button type="submit">Dar Like</button>
+        </form>
+
+        <h4>Comentarios</h4>
+        {% if post.comments.all %}
+          {% for comment in post.comments.all %}
+            <p><strong>@{{ comment.author.username }}:</strong> {{ comment.content }}</p>
+          {% empty %}
+            <p class="empty">Ainda sem comentarios.</p>
+          {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'social:add_comment' post.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{% url 'social:feed' %}">
+          <input type="text" name="username" placeholder="teu username" required>
+          <input type="text" name="content" placeholder="deixa um comentario" required>
+          <button type="submit">Comentar</button>
+        </form>
       </article>
-      <hr>
     {% endfor %}
   {% else %}
-    <p>Sem publicações no momento.</p>
+    <section class="card"><p class="empty">Sem publicacoes no momento.</p></section>
   {% endif %}
-  <p><a href="/">Voltar ao início</a></p>
-</body>
-</html>
+{% endblock %}

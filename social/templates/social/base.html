@@ -1,0 +1,24 @@
+{% load static %}
+<!doctype html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Kira Network{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'social/style.css' %}">
+</head>
+<body>
+  <div class="bg-overlay"></div>
+  <header class="topbar">
+    <div class="brand">Kira Network</div>
+    <nav>
+      <a href="/">Inicio</a>
+      <a href="/feed/">Feed</a>
+    </nav>
+  </header>
+  <main class="page">{% block content %}{% endblock %}</main>
+</body>
+</html>

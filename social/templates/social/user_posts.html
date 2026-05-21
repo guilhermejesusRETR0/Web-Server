@@ -1,25 +1,44 @@
-﻿<!doctype html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Publicações de {{ profile.username }}</title>
-</head>
-<body>
-  <h1>{{ profile.full_name }} (@{{ profile.username }})</h1>
-  <p>{{ profile.bio }}</p>
+﻿{% extends "social/base.html" %}
+{% block title %}Kira Network | Perfil{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>{{ profile.full_name }} (@{{ profile.username }})</h1>
+    <p class="meta">{{ profile.bio }}</p>
+  </section>
 
-  <h2>Publicações</h2>
-  {% if posts %}
-    <ul>
+  <section class="card">
+    <h2>Publicacoes</h2>
+    {% if posts %}
       {% for post in posts %}
-        <li>{{ post.content }} ({{ post.likes }} likes)</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Este utilizador ainda não publicou.</p>
-  {% endif %}
+        <article>
+          <p>{{ post.content }}</p>
+          <p class="meta">{{ post.likes }} likes | {{ post.comments.count }} comentarios</p>
 
-  <p><a href="/feed/">Ir para o feed</a></p>
-</body>
-</html>
+          <form method="post" action="{% url 'social:like_post' post.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'social:user_posts' profile.username %}">
+            <button type="submit">Dar Like</button>
+          </form>
+
+          <h4>Comentarios</h4>
+          {% for comment in post.comments.all %}
+            <p><strong>@{{ comment.author.username }}:</strong> {{ comment.content }}</p>
+          {% empty %}
+            <p class="empty">Ainda sem comentarios.</p>
+          {% endfor %}
+
+          <form method="post" action="{% url 'social:add_comment' post.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'social:user_posts' profile.username %}">
+            <input type="text" name="username" placeholder="teu username" required>
+            <input type="text" name="content" placeholder="deixa um comentario" required>
+            <button type="submit">Comentar</button>
+          </form>
+          <hr>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p class="empty">Este utilizador ainda nao publicou.</p>
+    {% endif %}
+  </section>
+{% endblock %}
