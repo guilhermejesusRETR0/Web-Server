@@ -1,3 +1,14 @@
-from django.shortcuts import render
+﻿from django.shortcuts import render
 
-# Create your views here.
+
+def home(request):
+    return render(request, 'social/home.html')
+
+
+def feed(request):
+    return render(request, 'social/feed.html')
+
+
+def user_posts(request, username):
+    context = {'username': username}
+    return render(request, 'social/user_posts.html', context)
