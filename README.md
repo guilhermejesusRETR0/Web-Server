@@ -5,27 +5,53 @@ Projeto académico de Administração de Sistemas com Django.
 ## Objetivo
 Desenvolver uma aplicação Django com separação entre ambiente de desenvolvimento e produção, usando Git/GitHub, variáveis de ambiente, MySQL, Docker e Docker Compose.
 
-## Configuração de base de dados MySQL
-1. Copiar `.env.example` para `.env`.
-2. Ajustar os valores das variáveis.
-3. Executar migrações com `python manage.py migrate`.
+## Ambientes
+Desenvolvimento local:
+- `python -m venv .venv`
+- `.\.venv\Scripts\python -m pip install -r requirements.txt`
+- `python manage.py migrate`
+- `python manage.py runserver`
 
-Variáveis MySQL usadas pela aplicação:
-- `DB_ENGINE=django.db.backends.mysql`
+Produção/containers (simulação):
+- `docker compose up --build`
+- App: `http://localhost:8000`
+- Base de dados: MySQL em `db:3306`
+
+## Variáveis de ambiente
+1. Copiar `.env.example` para `.env`.
+2. Atualizar os valores sensíveis no `.env`.
+3. Nunca commitar `.env`.
+
+Principais variáveis:
+- `SECRET_KEY`
+- `DEBUG`
+- `ALLOWED_HOSTS`
+- `DB_ENGINE`
 - `DB_NAME`
 - `DB_USER`
 - `DB_PASSWORD`
 - `DB_HOST`
 - `DB_PORT`
-- `DB_CHARSET` (default `utf8mb4`)
-- `DB_INIT_COMMAND` (default `SET sql_mode='STRICT_TRANS_TABLES'`)
+- `DB_CHARSET`
+- `DB_INIT_COMMAND`
+- `MYSQL_ROOT_PASSWORD`
 
 ## Docker Compose
-1. Copiar `.env.example` para `.env` e atualizar passwords.
-2. Construir e iniciar serviços:
-   `docker compose up --build`
-3. A aplicação fica em `http://localhost:8000`.
-
 Serviços incluídos:
 - `web`: aplicação Django
 - `db`: MySQL 8.4 com volume persistente
+
+## Funcionalidades da aplicação
+- Página inicial `/`
+- Feed global `/feed/`
+- Página de publicações por utilizador `/utilizador/<username>/`
+- Dados obtidos da base de dados com modelos `Profile`, `Post` e `Comment`
+
+## Checklist de requerimentos
+- Git + GitHub com commits por etapa
+- Ambiente virtual Python
+- Aplicação Django
+- Variáveis de ambiente
+- Base de dados MySQL
+- Dockerfile
+- Docker Compose com `web` + `db`
